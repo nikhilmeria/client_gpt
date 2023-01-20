@@ -31,8 +31,8 @@ function App() {
               </div>
             </div>    
             <div className='chat-message-gpt '>
-              <div className='avatar'>
-                me
+              <div className='avatar-gpt'>
+              <img src={logo} className="App-logo-gpt" alt="logo" />
               </div>
               <div className='message'>
                 Hello from chatGPT
