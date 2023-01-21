@@ -1,12 +1,17 @@
 import { Configuration, OpenAIApi } from "openai";
-const express = require('express');
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
 
 const app=express();
-const port = 3001;
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
+const port = 3080;
 
 const configuration = new Configuration({
     organization: "org-OPlHlzf67454hA5tlpfFphEk",
-    apiKey: "get from your openAI Acc dashboard",
+    apiKey: "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",
 });
 
 const openai = new OpenAIApi(configuration);
@@ -14,14 +19,25 @@ const openai = new OpenAIApi(configuration);
 //creating a fn that provides an api for the client to talk to OpenAI.
 
 app.post('/',async (req,resp) =>{
-    const response = await openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: "Say this is a test",
-        max_tokens: 7,
-        temperature: 0,
-      });
+    console.log("servwrrrrr");
+    const {message}= req.body;
+    console.log(" Server : ",message);
+    const beforePrompt = ``;
+    const afterPrompt = ``;
+    const breakPoint = `\n\n'''\n\n`;
+    let prompt = `${beforePrompt} ${breakPoint} ${message} ${breakPoint} ${afterPrompt}`;
+    console.log(prompt);
     
-    console.log("Response from API : ",response.data.choices[0].text);
+    const openAiApiResponse = await openai.createCompletion({
+        model: "text-davinci-003",
+        prompt: `${prompt}`,
+        max_tokens: 100,
+        temperature: 0.5,
+      });
+
+    console.log("Response from API : ",openAiApiResponse.data.choices[0].text);
+
+    resp.json({message:openAiApiResponse.data.choices[0].text});
 })
 
 app.listen(port,()=>{
