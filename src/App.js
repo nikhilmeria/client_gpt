@@ -16,10 +16,28 @@ function App() {
     },
   ]);
 
-  function formSubmitHandler(e) {
+  async function formSubmitHandler(e) {
     e.preventDefault();
-    setChatLog([...chatLog, { user: "Me", message: `${input}` }]);
-    console.log("form submitted : ", input);
+    console.log("form submitted 1 : ", input);
+    // setChatLog([...chatLog, { user: "Me", message: `${input}` }]);
+    // console.log(
+    //   "form submitted 2 : ",
+    //   chatLog.map((message) => message.message)
+    // );
+    const resp = await fetch("http://localhost:3080", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: input,
+      }),
+    });
+
+    const data = await resp.json();
+    console.log("data from my api : ", data.message);
+    //setChatLog([...chatLog, { user: "GPT", message: `${data.message}` }]);
+
     setInput("");
   }
 
