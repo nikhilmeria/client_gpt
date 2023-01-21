@@ -6,7 +6,7 @@ const port = 3001;
 
 const configuration = new Configuration({
     organization: "org-OPlHlzf67454hA5tlpfFphEk",
-    apiKey: "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",
+    apiKey: "get from openAI account dashboard",
 });
 
 const openai = new OpenAIApi(configuration);
